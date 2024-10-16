@@ -21,7 +21,7 @@ import Dashboard from "./Components/Dashboard";
 import { ProtectedRoute } from "./Components/ProtectedRoute";
 import SuccessPage from "./Components/SuccessPage";
 import RoomInfo from "./Components/RoomComponents/Room Infomation/RoomInfo";
-import ARoomSelection from "./Pages/Admin/ARoomSelection";
+import AdminRoomSelection from "./Components/RoomComponents/Admin/AdminRoomSelection";
 
 
 
@@ -64,14 +64,14 @@ function App() {
             <Router>
 
                 <Routes>
-                    <Route path="/home" element={<Home />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/admin" element={<Admin />} />
                     <Route path="/adminreg" element={<AdminRegister />} />
                     <Route path="/addrooms" element={<Addrooms />} />
                     <Route path="/profile" element={<UserProfile />} />
-                    <Route path="/" element={<RoomSelection />} />
+                    <Route path="/roomselection" element={<RoomSelection />} />
                     <Route path="/roominfo" element={<RoomInfo />} />
                     <Route path="/roomdetails" element={<RoomDetails />} />
                     <Route path="/pay" element={<StripeWrapper />} />
@@ -80,7 +80,7 @@ function App() {
                     <Route path="/dashboard" element={<ProtectedRoute admin={admin}>
                         <Dashboard></Dashboard>
                     </ProtectedRoute>} />
-                    <Route path="/adminroomselection" element={<ARoomSelection />} />
+                    <Route path="/adminroomselection" element={<AdminRoomSelection />} />
 
                 </Routes>
 

@@ -1,4 +1,3 @@
-// Addrooms.js
 import { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
@@ -11,7 +10,6 @@ const Addrooms = () => {
     const [surname, setSurname] = useState('');  // State to hold the user's surname
     const [roomType, setRoomType] = useState('');
     const [roomNumber, setRoomNumber] = useState(1);
-
     const navigate = useNavigate();
 
     const handleNextClick = () => {
@@ -33,11 +31,14 @@ const Addrooms = () => {
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const userData = docSnap.data();
+                    console.log('User data from Firestore:', userData); // Log user data
                     setUserName(userData.userName); // Set the user's first name
                     setSurname(userData.surname); // Set the user's surname
                 } else {
                     console.log('No such document!');
                 }
+            } else {
+                console.log('No user signed in.');
             }
         });
 
@@ -59,14 +60,13 @@ const Addrooms = () => {
         <div className="hotel-search-container">
             <Navbar />
             <header className="header">
-                <h1>Welcome, {userName} {surname}</h1> {/* Display user's full name */}
+                {userName && surname ? (
+                    <h1>Hi, {userName} {surname}</h1>
+                ) : (
+                    <h1>Welcome!</h1>
+                )}
                 <p>Let's see where you'll be comfortable :)</p>
-                <div className="search-bar">
-                    <input type="text" placeholder="Search Hotel" className="search-input" />
-                    <button className="search-button">
-                        <i className="fas fa-search"></i>
-                    </button>
-                </div>
+
             </header>
 
             <div className="form-section">
