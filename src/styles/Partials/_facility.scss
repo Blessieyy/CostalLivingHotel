@@ -1,0 +1,72 @@
+// facilities 
+.custom-image {
+    // background-color: #b3a3a3;
+    width: 500px;
+    height: 300px;
+    position: relative;
+    border-radius: 20px;
+}
+
+.circle-image {
+
+    height: 200px;
+    width: 400px;
+    position: relative;
+    border-radius: 100%;
+    margin-bottom: 1.73rem;
+
+
+    img {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        border-radius: 100%;
+    }
+}
+
+
+
+.facility-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5vw;
+
+    .col {
+        width: 50%;
+    }
+
+
+}
+
+
+.picture-col {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5vw;
+
+
+}
+
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.75vw;
+    margin-bottom: 2.75em;
+
+}
+
+.cirgallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2vw;
+}
+
+.desc-title {
+    font-weight: bolder;
+    text-align: center;
+
+    .info {
+        font-weight: lighter;
+    }
+}

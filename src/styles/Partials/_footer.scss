@@ -1,0 +1,40 @@
+//footer
+.footer {
+    background-color: black;
+    color: var(--background-light);
+    padding-block: 3em;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-gap: 1em;
+
+    .footer-section {
+        p {
+            opacity: 8;
+            margin-bottom: .5em;
+            margin-left: 1.9em;
+        }
+
+        p.tit {
+            opacity: 1;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 1em;
+        }
+
+        .icon {
+            margin-right: 0.6em;
+        }
+
+
+    }
+
+
+}
+
+.rights-section {
+    background-color: var(--primary-color);
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    padding-block: 2em;
+    color: var(--background-light);
+}

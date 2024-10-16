@@ -1,0 +1,118 @@
+/* General layout */
+.login-page {
+  display: flex;
+  height: 100vh;
+}
+
+.left-section {
+
+  flex: 1;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+
+.text-container {
+  position: absolute;
+  top: 25%;
+  left: 0%;
+  color: black;
+}
+
+.text-container h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.text-container p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Right Section */
+.right-section {
+  flex: 1;
+  background-color: #ffe4c4;
+  /* light peach color */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-container {
+
+  text-align: center;
+  padding-left: 9.7rem;
+  padding-right: 9.7rem;
+}
+
+.login-container h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.login-container p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+form label {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  align-self: flex-start;
+}
+
+form input {
+  width: 40vh;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  background-color: transparent;
+  font-size: 1rem;
+}
+
+
+.login-container .social-container {
+
+  display: flex;
+  gap: 1.31rem;
+}
+
+.social-button {
+
+  background-color: #ccc;
+
+}
+
+.social-container .social-button .social-icon {
+  position: relative;
+  height: 20px;
+  width: 23px;
+}
+
+.social-container .social-button {
+  display: flex;
+  width: 100%;
+  gap: 0.81rem;
+  cursor: pointer;
+  font-size: 1rem;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+.new-here {
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #555;
+}

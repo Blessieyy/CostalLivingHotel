@@ -1,0 +1,134 @@
+//rooms details
+.room-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f2e9e4;
+    font-family: 'Arial', sans-serif;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #707070;
+        color: white;
+        padding: 1rem;
+        width: 100%;
+
+        .back-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: white;
+            cursor: pointer;
+
+            .fas fa-arrow-left {
+                .icon {
+                    &:hover {
+                        background-color: var(--background-light);
+                    }
+                }
+
+            }
+
+        }
+
+        h1 {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .username-section {
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+
+            i {
+                font-size: 2rem;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
+    .room-image-container {
+        position: relative;
+        width: 100%;
+        height: 500px;
+        background-color: #eee;
+
+        .room-image {
+            position: absolute;
+            border-radius: 0 20px;
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+        }
+    }
+
+    .action-buttons {
+        display: flex;
+        justify-content: space-around;
+        margin: 1rem 0;
+        width: 80%;
+
+        .action-button {
+            background-color: #333;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+
+            &:hover {
+                background-color: #555;
+            }
+        }
+    }
+
+    .date-picker {
+        display: flex;
+        justify-content: space-around;
+        width: 80%;
+
+        .date-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            label {
+                font-size: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            input {
+                padding: 0.75rem;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+                width: 150px;
+                text-align: center;
+                font-size: 1rem;
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 2rem;
+        width: 80%;
+
+        .continue-button {
+            background-color: #333;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+
+            &:hover {
+                background-color: #555;
+            }
+        }
+    }
+}

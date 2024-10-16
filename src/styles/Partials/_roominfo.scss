@@ -1,0 +1,79 @@
+//room info
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #707070;
+    color: white;
+    padding: 1rem;
+    width: 100%;
+
+    .back-button {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+
+        .fas fa-arrow-left {
+            .icon {
+                &:hover {
+                    background-color: var(--background-light);
+                }
+            }
+
+        }
+
+    }
+
+    h1 {
+        flex-grow: 1;
+        text-align: center;
+
+    }
+
+    .username-section {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+
+        i {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+.info-image-container {
+    position: relative;
+    width: 100%;
+    height: 500px;
+
+
+
+
+
+    .info-image {
+        position: absolute;
+        border-radius: 0 20px;
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        z-index: -1;
+    }
+
+    .info-details {
+        font-family: "Quicksand", sans-serif;
+        margin-left: 20px;
+        color: var(--background-light);
+        font-weight: bold;
+        text-align: left;
+    }
+
+
+}
+
+.info-details {
+    font-family: "Quicksand", sans-serif;
+    margin-left: 20px;
+}

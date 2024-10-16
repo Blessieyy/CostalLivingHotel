@@ -1,0 +1,148 @@
+//Payment
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #707070;
+    color: white;
+    padding: 1rem;
+    width: 100%;
+
+    .back-button {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: white;
+        cursor: pointer;
+    }
+
+    h1 {
+        flex-grow: 1;
+
+        .room-header {
+            text-align: left;
+        }
+    }
+
+    .username-section {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+
+        i {
+            font-size: 2rem;
+            margin-right: 0.5rem;
+        }
+    }
+}
+
+.payment-form {
+    background-color: var(--primary-color);
+    padding: 50px;
+    border-radius: 10px;
+    color: #fff;
+    margin-top: 10%;
+    border: 1px solid var(--background-color);
+
+    .payhead {
+        text-align: center;
+        margin-bottom: 2em;
+    }
+
+    .payment-methods {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        button {
+            background-color: #192e55;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            flex: 1;
+            margin: 0 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+
+            &.active {
+                background-color: var(--background-color);
+                color: #000000;
+            }
+
+            &:first-child {
+                margin-left: 0;
+            }
+
+            &.bar:nth-child(2) {
+                margin-left: 0;
+            }
+
+            &.bar:nth-child(3) {
+                margin-left: 0;
+            }
+        }
+
+        .menu-btn {
+            width: 50px;
+        }
+    }
+
+    form {
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+            width: 300px;
+
+
+
+            label {
+                margin-bottom: 5px;
+                font-size: 14px;
+                color: #c2c8cf;
+            }
+
+            input,
+            select {
+                padding: 10px;
+                border: none;
+                border-radius: 5px;
+                background-color: #192e55;
+                color: #fff;
+                font-size: 16px;
+
+                &::placeholder {
+                    color: #8fa1b4;
+                }
+            }
+
+
+
+
+            .card-icons {
+
+                display: flex;
+                gap: 5px;
+                margin-top: 10px;
+
+                img {
+                    // position: relative;
+                    width: 40px;
+                    height: 0%;
+                }
+            }
+        }
+
+        .submit-btn {
+
+            color: #192e55;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            color: var(--background-light);
+        }
+    }
+}
