@@ -104,7 +104,7 @@ const RoomSelection = () => {
                     <FontAwesomeIcon icon={faBackward} />
                 </button>
 
-                <h1 className="room-header">Room Selection</h1>
+                <h1 className="room-header">Room Selection!</h1>
                 <div className="username-section">
                     <span className="username">{userName} {surname}</span>
                 </div>
