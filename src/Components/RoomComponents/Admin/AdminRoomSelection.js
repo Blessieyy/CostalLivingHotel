@@ -95,6 +95,8 @@ const AdminRoomSelection = () => {
             </header>
 
             <div className="room-list">
+                <h3 className='head-greet'>Good to have you here <span>{userName} {surname}</span> :) </h3>
+                <p className='head-greet'>What do you feel like doing today?</p>
                 {data.map(value => (
                     <div className={`room-card ${selectedRoom && selectedRoom.id === value.id ? 'selected' : ''}`}
                         key={value.id}

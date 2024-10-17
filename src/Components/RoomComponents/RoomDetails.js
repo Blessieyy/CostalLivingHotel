@@ -1,14 +1,21 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBackward, faUser, faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore/lite';
+import { db } from '../firebase';
+
+
 
 const RoomDetails = () => {
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
+    const [userName, setUserName] = useState('');
+    const [surname, setSurname] = useState('');
     const images = [
         {
-            pic: "/images/vojtech-bruzek-Yrxr3bsPdS0-unsplash.jpg"
+            pic: "/images/toni-rose-ng-Aq3MVtlHC1s-unsplash.jpg"
         }
     ]
     const navigate = useNavigate();
@@ -19,11 +26,26 @@ const RoomDetails = () => {
             state: {
                 checkInDate,
                 checkOutDate,
-                roomType: 'YourRoomTypeHere',
-                roomNumber: 'YourRoomNumberHere'
+
             }
         });
     };
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const docSnap = await getDoc(doc(db, 'users', user.uid));
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    setUserName(userData.userName);
+                    setSurname(userData.surname);
+                }
+            }
+        });
+        return () => unsubscribe();
+    }, []);
+
 
     return (
         <div className="room-details">
@@ -34,7 +56,7 @@ const RoomDetails = () => {
                 <h1 className='room-header'>Room Check in</h1>
                 <div className="username-section">
                     <i className="fas fa-user-circle"><FontAwesomeIcon icon={faUserAlt} /></i> {/* Font Awesome user icon */}
-                    <span>USERNAME</span>
+                    <span>{userName} {surname}</span>
                 </div>
             </header>
             {images.map((image, index) => (
@@ -45,10 +67,10 @@ const RoomDetails = () => {
 
 
             <div className="action-buttons">
-                <button className="action-button">Map</button>
+                {/* <button className="action-button">Map</button>
                 <button className="action-button">Photos</button>
                 <button className="action-button">Call</button>
-                <button className="action-button">Reviews</button>
+                <button className="action-button">Reviews</button> */}
             </div>
 
             <div className="date-picker">

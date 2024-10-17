@@ -54,7 +54,7 @@ const AddRoomPage = () => {
         });
 
         alert('Room Added Successfully');
-        navigate('/addroompage');  // Navigate to home or wherever appropriate
+        navigate('/adminroomselection');  // Navigate to home or wherever appropriate
     };
 
     return (

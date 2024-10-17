@@ -71,7 +71,7 @@ const Addrooms = () => {
             </header>
 
             <div className="form-section">
-                <div className="dropdown">
+                {/* <div className="dropdown">
                     <label>Choose Room Type:</label>
                     <label>
                         <input
@@ -99,8 +99,8 @@ const Addrooms = () => {
                             onChange={(e) => setRoomType(e.target.value)}
                         />
                         Suite
-                    </label>
-                </div>
+                    </label> */}
+                {/* </div> */}
 
                 <label>No. of Rooms:</label>
                 <button onClick={handleDecrement} disabled={roomNumber === 1}>-</button>

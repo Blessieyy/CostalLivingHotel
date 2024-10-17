@@ -54,15 +54,15 @@ const Review = () => {
 
                 <div className="booking-info">
                     <div className="booking-details">
-                        <div className="booking-item">
+                        {/* <div className="booking-item">
                             <input type="text" value={`${roomType}`} readOnly />
                         </div>
                         <div className="booking-item">
                             <input type="text" value={`${roomNumber}`} readOnly />
-                        </div>
+                        </div> */}
                         <div className="booking-item">
                             <input type="text" value={`${checkInDate} `} readOnly />
-                            <img src="calendar-icon.png" alt="" className="calendar-icon" />
+                            {/* <img src="calendar-icon.png" alt="" className="calendar-icon" /> */}
                         </div>
                         <div className="booking-item">
                             <input type="text" value={`${checkOutDate} `} readOnly /> {/* Use roomNumber here */}
