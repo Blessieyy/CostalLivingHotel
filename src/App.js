@@ -24,7 +24,7 @@ import RoomInfo from "./Components/RoomComponents/Room Infomation/RoomInfo";
 import AdminRoomSelection from "./Components/RoomComponents/Admin/AdminRoomSelection";
 import AddRoomPage from "./Components/RoomComponents/Admin/AddRoomPage";
 import AdminRoomInfo from "./Components/RoomComponents/Admin/AdminRoomInfo";
-
+import BookingConfirmation from "./Components/RoomComponents/BookingConfirmation";
 
 
 function App() {
@@ -85,6 +85,7 @@ function App() {
                     <Route path="/adminroomselection" element={<AdminRoomSelection />} />
                     <Route path="/addroompage" element={<AddRoomPage />} />
                     <Route path="/adminroominfo" element={<AdminRoomInfo />} />
+                    <Route path="/confirm" element={<BookingConfirmation />} />
 
                 </Routes>
 
