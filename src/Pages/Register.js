@@ -1,9 +1,8 @@
-// Register.js
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { setDoc, doc } from 'firebase/firestore';
-import { auth, db } from '../Components/firebase'; // Adjust path as necessary
+import { setDoc, doc } from 'firebase/firestore/lite';
+import { auth, db } from '../Components/firebase';
 
 const Register = () => {
   const images = '/images/rhema-kallianpur-jbJ-_hw2yag-unsplash.jpg';
@@ -28,11 +27,8 @@ const Register = () => {
         role: 'user',
       };
 
-      // Log Firestore instance
-      console.log('Firestore DB Instance:', db);
-      await setDoc(doc(db, 'users', uid), userData);
-      console.log('User added to Firestore successfully');
-
+      const userDocRef = doc(db, 'users', uid);
+      await setDoc(userDocRef, userData);
       alert('Registered Successfully! Welcome to the family.');
       navigate('/login');
     } catch (error) {
@@ -69,7 +65,6 @@ const Register = () => {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
-
             <label>Last Name:</label>
             <input
               type="text"
@@ -77,7 +72,6 @@ const Register = () => {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
-
             <label>Email Address:</label>
             <input
               type="email"
@@ -85,7 +79,6 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-
             <label>Password:</label>
             <input
               type="password"
@@ -93,7 +86,6 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-
             <button type="submit">SIGNUP</button>
           </form>
           <p className="new-here"><Link to={'/login'}>Already have an account?</Link></p>

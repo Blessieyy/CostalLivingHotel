@@ -22,6 +22,8 @@ import { ProtectedRoute } from "./Components/ProtectedRoute";
 import SuccessPage from "./Components/SuccessPage";
 import RoomInfo from "./Components/RoomComponents/Room Infomation/RoomInfo";
 import AdminRoomSelection from "./Components/RoomComponents/Admin/AdminRoomSelection";
+import AddRoomPage from "./Components/RoomComponents/Admin/AddRoomPage";
+import AdminRoomInfo from "./Components/RoomComponents/Admin/AdminRoomInfo";
 
 
 
@@ -81,6 +83,8 @@ function App() {
                         <Dashboard></Dashboard>
                     </ProtectedRoute>} />
                     <Route path="/adminroomselection" element={<AdminRoomSelection />} />
+                    <Route path="/addroompage" element={<AddRoomPage />} />
+                    <Route path="/adminroominfo" element={<AdminRoomInfo />} />
 
                 </Routes>
 

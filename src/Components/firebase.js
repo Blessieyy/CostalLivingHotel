@@ -1,10 +1,9 @@
-// firebase.js
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore/lite'; // Full SDK
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
 
-
+// Your Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBLiSWDogxnHgOYW7DC05UmEVv_O-sniFY",
     authDomain: "myapp-fe0a5.firebaseapp.com",
@@ -15,13 +14,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getFirestore(app); // Initialize Firestore
 const auth = getAuth(app);
 const imgDb = getStorage(app);
-const txtDb = db
 
-export { auth, db, imgDb, txtDb };
-
-
-
-
+export { auth, db, imgDb };

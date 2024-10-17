@@ -34,7 +34,7 @@ const Navbar = () => {
         const auth = getAuth();
         signOut(auth).then(() => {
 
-            navigate("/adminreg");
+            navigate("/login");
 
         }).catch((error) => {
 
@@ -49,7 +49,7 @@ const Navbar = () => {
 
             <div className='nav-links'>
                 <a href="/login">Login</a>
-                <a href="/register">SignUp</a>
+                {/* <a href="/register">SignUp</a> */}
                 <a href="/">Home</a>
                 <button onClick={handleClick} >Sign Out</button>
                 <a href="/profile">User: {userName} {surname} </a>

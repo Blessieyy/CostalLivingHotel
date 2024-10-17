@@ -1,57 +1,57 @@
 :root {
-    --background-color: rgba(255, 232, 212, 1);
-    --background-light: #fff;
-    --shadow-color: rgba(0, 0, 0, 0.2);
-    --primary-color: rgb(155, 65, 95);
-    --text-color: #0A0A0A;
-    --text-light: #575757;
-    --font-size: 16px;
-    --animation-speed: 1;
+  --background-color: rgba(255, 232, 212, 1);
+  --background-light: #fff;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+  --primary-color: rgb(155, 65, 95);
+  --text-color: #0A0A0A;
+  --text-light: #575757;
+  --font-size: 16px;
+  --animation-speed: 1;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    font-size: 16px;
-    font-family: "Quicksand", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    background-color: var(--background-color);
+  font-size: 16px;
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color: var(--background-color);
 
 }
 
 button {
-    background-color: black;
-    margin-bottom: 1.3rem;
-    margin-right: 1.75rem;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-size: 1rem;
+  background-color: black;
+  margin-bottom: 1.3rem;
+  margin-right: 1.75rem;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 1rem;
 }
 
 
 // margin-bottom: 3rem;
 
 img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 500px;
-    height: 300px;
-    border-radius: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 500px;
+  height: 300px;
+  border-radius: 20px;
 }
 
 
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 
@@ -72,106 +72,111 @@ a {
 
 //addrooms
 .hotel-search-container {
-    
-  
-    header {
-      width: 100%;
-      background-color: #4a4a4a; // dark header background
-      color: #fff; // light text
-      text-align: center;
-      padding: 1.5rem;
-      border-radius: 8px 8px 0 0;
-  
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 0.5rem;
-      }
-  
-      p {
-        font-size: 1.2rem;
-        margin-top: 0;
-        font-style: italic;
-      }
-    }
-  
-    .form-section {
-      
 
-  
-      .dropdown {
-        margin-bottom: 1.5rem;
-        display: flex;
-        justify-content: center;
-  
-        label {
-          margin-right: 1.5rem;
-          font-weight: bold;
-          color: #333;
-        }
-  
-        input[type="radio"] {
-          margin-right: 0.3rem;
-        }
-      }
-  
+
+  header {
+    position: relative;
+    width: 100%;
+    background-color: #bda5a5; // dark header background
+    color: #fff; // light text
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 8px 8px 0 0;
+
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-top: 0;
+      font-style: italic;
+    }
+  }
+
+
+
+  .form-section {
+
+
+
+    .dropdown {
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+
       label {
+        margin-right: 1.5rem;
         font-weight: bold;
-        margin-right: 1rem;
         color: #333;
       }
-  
-      button {
-        background-color: #000;
-        color: #fff;
-        border: none;
-        padding: 0.5rem 1rem;
-        margin: 0 0.5rem;
-        // border-radius: 50%;
-        cursor: pointer;
-        font-size: 1.2rem;
-        transition: background-color 0.3s;
-  
-        &:disabled {
-          opacity: 0.5;
-          cursor: not-allowed;
-        }
-  
-        &:hover:not(:disabled) {
-          background-color: #444;
-        }
-      }
-  
-      input[type="number"] {
-        width: 60px;
-        text-align: center;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 0.5rem;
-        margin: 0 1rem;
-        font-size: 1.2rem;
+
+      input[type="radio"] {
+        margin-right: 0.3rem;
       }
     }
-  
-    .search-button-container {
-      margin-top: 1.5rem;
-  
-      .next-button {
-        background-color: #000;
-        color: #fff;
-        padding: 0.8rem 2rem;
-        border: none;
-        border-radius: 24px;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
-  
-        &:hover {
-          background-color: #444;
-        }
+
+    label {
+      font-weight: bold;
+      margin-right: 1rem;
+      color: #333;
+    }
+
+    button {
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 0.5rem 1rem;
+      margin: 0 0.5rem;
+      // border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: background-color 0.3s;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background-color: #444;
+      }
+    }
+
+    input[type="number"] {
+      width: 60px;
+      text-align: center;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 0.5rem;
+      margin: 0 1rem;
+      font-size: 1.2rem;
+    }
+  }
+
+  .search-button-container {
+    margin-top: 1.5rem;
+
+    .next-button {
+      background-color: #000;
+      color: #fff;
+      padding: 0.8rem 2rem;
+      border: none;
+      border-radius: 24px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #444;
       }
     }
   }
-  
+}
+
 
 
 
@@ -179,41 +184,41 @@ a {
 
 /* From Uiverse.io by aryamitra06 */
 .loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 28.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 28.7em;
 
 }
 
 .bar {
-    display: inline-block;
-    width: 3px;
-    height: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    animation: scale-up4 1s linear infinite;
+  display: inline-block;
+  width: 3px;
+  height: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  animation: scale-up4 1s linear infinite;
 }
 
 .bar:nth-child(2) {
-    height: 35px;
-    margin: 0 5px;
-    animation-delay: .25s;
+  height: 35px;
+  margin: 0 5px;
+  animation-delay: .25s;
 }
 
 .bar:nth-child(3) {
-    animation-delay: .5s;
+  animation-delay: .5s;
 }
 
 @keyframes scale-up4 {
-    20% {
-        background-color: #705151;
-        transform: scaleY(1.5);
-    }
+  20% {
+    background-color: #705151;
+    transform: scaleY(1.5);
+  }
 
-    40% {
-        transform: scaleY(1);
-    }
+  40% {
+    transform: scaleY(1);
+  }
 }
 
 
@@ -227,67 +232,67 @@ a {
 
 
 .error-message {
-    color: red;
-    background-color: rgb(255, 201, 201);
-    border-radius: 20px;
+  color: red;
+  background-color: rgb(255, 201, 201);
+  border-radius: 20px;
 }
 
 
 
 .Admin-head {
-    color: var(--background-light);
+  color: var(--background-light);
 }
 
 
 .container {
-    padding-inline: 3vw;
+  padding-inline: 3vw;
 }
 
 button:hover {
-    background-color: #b3a3a3;
-    transition: calc(0.5s);
+  background-color: #b3a3a3;
+  transition: calc(0.5s);
 }
 
 .container {
-    padding-inline: 4vw;
+  padding-inline: 4vw;
 
 }
 
 .main {
-    margin-top: 5vw;
+  margin-top: 5vw;
 }
 
 @media screen and (max-width: 1280px) {
-    .container {
-        padding-inline: 18vw;
-    }
+  .container {
+    padding-inline: 18vw;
+  }
 
 }
 
 @media screen and (max-width: 1050px) {
-    .container {
-        padding-inline: 12vw;
-    }
+  .container {
+    padding-inline: 12vw;
+  }
 
 }
 
 @media screen and (max-width: 768px) {
-    .navbar {
-        .nav-links {
-            display: none;
-        }
+  .navbar {
+    .nav-links {
+      display: none;
+    }
 
-        .sidebar-btn {
-            display: block;
-
-        }
+    .sidebar-btn {
+      display: block;
 
     }
+
+  }
 }
 
 @media screen and (max-width: 400px) {
-    .container {
-        padding-inline: 1vw;
-    }
+  .container {
+    padding-inline: 1vw;
+  }
 
 }

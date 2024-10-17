@@ -1,71 +1,22 @@
-
-// RoomSelection.js
+// AdminRoomSelection.js
 import { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore/lite';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore/lite';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward } from '@fortawesome/free-solid-svg-icons';
-// import ImageUploadModal from '../ImageUploadModal'; // Ensure this is the correct import path
-import { v4 } from 'uuid';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, collection, getDocs, getFirestore } from 'firebase/firestore';
-import { db, imgDb } from '../../firebase';
+import { faBackward, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 const AdminRoomSelection = () => {
     const [userName, setUserName] = useState('');
     const [surname, setSurname] = useState('');
     const [selectedRoom, setSelectedRoom] = useState(null);
-    const [img, setImg] = useState('');
-    const [txt, setTxt] = useState('');
-    const [desc, setDesc] = useState('');
-    const [pr, setPr] = useState('');
-    const [rat, setRat] = useState('');
     const [data, setData] = useState([]);
+    const [editMode, setEditMode] = useState(null); // Track the room being edited
+    const [editFields, setEditFields] = useState({ txt: '', desc: '', pr: '', rat: '' }); // Editable fields
 
     const navigate = useNavigate();
-
-    const handleUpload = (e) => {
-        const file = e.target.files[0]; // Get the file
-        if (file) {
-            const imgs = ref(imgDb, `Imgs/${v4()}`); // Create a reference in Firebase storage
-
-            // Upload the file and then get the download URL
-            uploadBytes(imgs, file)
-                .then(snapshot => {
-                    console.log('File uploaded successfully:', snapshot);
-                    return getDownloadURL(snapshot.ref); // Get the download URL
-                })
-                .then(url => {
-                    console.log('Download URL:', url);
-                    setImg(url); // Set the image URL in state
-                })
-                .catch(error => {
-                    console.error("Error uploading file:", error);
-                });
-        } else {
-            console.error("No file selected.");
-        }
-    };
-
-    const handleClick = async () => {
-        if (!txt || !desc || !pr || !rat || !img) {
-            alert("Please fill out all fields, including the image.");
-            return;
-        }
-
-        const valRef = collection(getFirestore(), 'rooms');
-        await addDoc(valRef, {
-            txtVal: txt,
-            imgUrl: img,  // Save the image URL
-            desc: desc,
-            pr: pr,
-            rat: rat
-        });
-
-        alert('Room Added Successfully');
-        getData(); // Fetch the updated data
-    };
 
     const getData = async () => {
         const valRef = collection(getFirestore(), 'rooms');
@@ -94,15 +45,49 @@ const AdminRoomSelection = () => {
         setSelectedRoom(room);
     };
 
+    const handleDelete = async (roomId) => {
+        const confirmDelete = window.confirm("Are you sure you want to delete this room?");
+        if (confirmDelete) {
+            try {
+                const roomRef = doc(db, 'rooms', roomId); // Use the Firestore instance directly from db
+                console.log("Attempting to delete room with ID:", roomId); // Debugging: log the room ID
+                await deleteDoc(roomRef); // Delete the document
+                console.log("Room deleted successfully");
+                alert("Room deleted successfully.");
+                getData(); // Refresh the room list
+            } catch (error) {
+                console.error("Error deleting room:", error); // Log the error
+                alert("Error deleting room: " + error.message); // Show error to the user
+            }
+        }
+    };
+
+
+
+    const handleEditClick = (room) => {
+        setEditMode(room.id);
+        setEditFields({ txt: room.txtVal, desc: room.desc, pr: room.pr, rat: room.rat });
+    };
+
+    const handleSaveEdit = async (roomId) => {
+        const roomRef = doc(getFirestore(), 'rooms', roomId);
+        await updateDoc(roomRef, {
+            txtVal: editFields.txt,
+            desc: editFields.desc,
+            pr: editFields.pr,
+            rat: editFields.rat
+        });
+        alert("Room updated successfully.");
+        setEditMode(null);
+        getData(); // Refresh the room list
+    };
 
     return (
         <div className="room-selection">
-
             <header className="header">
-                <button className="back-button" onClick={() => navigate('/addrooms')}>
+                <button className="back-button" onClick={() => navigate('/')}>
                     <FontAwesomeIcon icon={faBackward} />
                 </button>
-
                 <h1 className="room-header">Room Selection</h1>
                 <div className="username-section">
                     <span className="username">{userName} {surname}</span>
@@ -110,34 +95,68 @@ const AdminRoomSelection = () => {
             </header>
 
             <div className="room-list">
-                <input onChange={(e) => setTxt(e.target.value)} placeholder='Room Name' />
-                <input onChange={(e) => setDesc(e.target.value)} placeholder="Description" />
-                <input onChange={(e) => setRat(e.target.value)} placeholder="Rating" />
-                <input onChange={(e) => setPr(e.target.value)} placeholder="Price" />
-                <input type='file' onChange={(e) => handleUpload(e)} />
-                <button onClick={handleClick}>Add</button>
                 {data.map(value => (
                     <div className={`room-card ${selectedRoom && selectedRoom.id === value.id ? 'selected' : ''}`}
                         key={value.id}
                         onClick={() => handleRoomClick(value)}>
                         <img className="room-image" src={value.imgUrl} alt={value.txtVal} />
-                        <div className="room-details">
-                            <h2 className="room-title">{value.txtVal}</h2>
-                            <p className="room-description">{value.desc}</p>
-                            <p className="room-price">Price: {value.pr}</p>
-                            <p className="room-rating">Rating: {value.rat} ★</p>
-                        </div>
+                        {editMode === value.id ? (
+                            <div className="edit-room-details">
+                                <input
+                                    type="text"
+                                    value={editFields.txt}
+                                    onChange={(e) => setEditFields({ ...editFields, txt: e.target.value })}
+                                    placeholder="Room Name"
+                                />
+                                <input
+                                    type="text"
+                                    value={editFields.desc}
+                                    onChange={(e) => setEditFields({ ...editFields, desc: e.target.value })}
+                                    placeholder="Description"
+                                />
+                                <input
+                                    type="text"
+                                    value={editFields.pr}
+                                    onChange={(e) => setEditFields({ ...editFields, pr: e.target.value })}
+                                    placeholder="Price"
+                                />
+                                <input
+                                    type="text"
+                                    value={editFields.rat}
+                                    onChange={(e) => setEditFields({ ...editFields, rat: e.target.value })}
+                                    placeholder="Rating"
+                                />
+                                <button onClick={() => handleSaveEdit(value.id)}>Save</button>
+                                <button onClick={() => setEditMode(null)}>Cancel</button>
+                            </div>
+                        ) : (
+                            <div className="room-details">
+                                <h2 className="room-title">{value.txtVal}</h2>
+                                <p className="room-description">{value.desc}</p>
+                                <p className="room-price">Price: {value.pr}</p>
+                                <p className="room-rating">Rating: {value.rat} ★</p>
+                                <div className="room-actions">
+                                    <button onClick={() => handleEditClick(value)}>
+                                        <FontAwesomeIcon icon={faEdit} /> Edit
+                                    </button>
+                                    <button onClick={() => handleDelete(value.id)}>
+                                        <FontAwesomeIcon icon={faTrash} /> Delete
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
 
-            <footer className="button-foote">
+            <footer className="button-footer">
                 <button onClick={() => navigate('/')} className='home-button'>HOME</button>
                 <button onClick={() => navigate('/dashboard')} className="back-button">BACK</button>
+                <button onClick={() => navigate('/addroompage')} className='add-room-button'>ADD ROOM</button>
                 <button
-                    onClick={() => navigate('/roominfo', { state: { room: selectedRoom } })} // Pass selected room details
+                    onClick={() => navigate('/adminroominfo', { state: { room: selectedRoom } })}
                     className="continue-button"
-                    disabled={!selectedRoom} // Disable until a room is selected
+                    disabled={!selectedRoom}
                 >
                     CONTINUE
                 </button>
