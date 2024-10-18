@@ -38,7 +38,7 @@ const Login = () => {
             </div>
             <div className="right-section">
                 <div className="login-container">
-                    <h2>Login</h2>
+                    <h2>Login as Admin</h2>
                     <p>Welcome Back!</p>
                     <form onSubmit={handleSubmit}>
                         <label>Email Address:</label>

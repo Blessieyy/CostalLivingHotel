@@ -43,7 +43,11 @@ const RoomSelection = () => {
     const handleRoomClick = (room) => {
         setSelectedRoom(room);
     };
-
+    const handleContinueClick = () => {
+        if (selectedRoom) {
+            navigate('/roomdetails', { state: { selectedRoom } }); // Pass selected room details to RoomDetails
+        }
+    };
     return (
         <div className="room-selection">
             <header className="header">
@@ -77,7 +81,7 @@ const RoomSelection = () => {
                 <button onClick={() => navigate('/addrooms')} className="back-button">BACK</button>
 
                 <button
-                    onClick={() => navigate('/roominfo', { state: { room: selectedRoom } })} // Pass selected room details
+                    onClick={handleContinueClick} // Pass selected room details
                     className="continue-button"
                     disabled={!selectedRoom} // Disable until a room is selected
                 >

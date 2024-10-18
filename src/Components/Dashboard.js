@@ -1,50 +1,53 @@
-// Dashboard.js
-import React, { useState } from 'react';
-import AdminRoomSelection from './RoomComponents/Admin/AdminRoomSelection';
+import React from "react";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-const Dashboard = () => {
-    const [rooms, setRooms] = useState([]);
-
-    // Function to receive room data from AdminRoomSelection
-    const handleRoomsFromAdmin = (roomsData) => {
-        setRooms(roomsData);
-    };
+const Dashboard = ({ data = [], handleEditClick, handleDelete }) => {
+    // Add a check if data is still loading or empty
+    if (!data || data.length === 0) {
+        return <p>No rooms available or data is loading...</p>;
+    }
 
     return (
-        <div>
-            <h1>Dashboard</h1>
-
-            {/* Render the AdminRoomSelection component */}
-            <AdminRoomSelection sendRoomsToDashboard={handleRoomsFromAdmin} />
-
-            {/* Display rooms data in a table */}
-            {rooms.length > 0 && (
-                <table className="room-table">
-                    <thead>
-                        <tr>
-                            <th>Room Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>Rating</th>
-                            <th>Image</th>
+        <div className="room-dashboard">
+            <div>
+                {/* Pass data and functions to Dashboard */}
+                <Dashboard
+                    data={data} // Ensure data is passed, even if it's an empty array
+                    handleEditClick={handleEditClick}
+                    handleDelete={handleDelete}
+                />
+            </div>
+            <h2>Room Dashboard</h2>
+            <table className="room-table">
+                <thead>
+                    <tr>
+                        <th>Room Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Rating</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.map((value) => (
+                        <tr key={value.id}>
+                            <td>{value.txtVal}</td>
+                            <td>{value.desc}</td>
+                            <td>{value.pr}</td>
+                            <td>{value.rat} ★</td>
+                            <td>
+                                <button onClick={() => handleEditClick(value)}>
+                                    <FontAwesomeIcon icon={faEdit} /> Edit
+                                </button>
+                                <button onClick={() => handleDelete(value.id)}>
+                                    <FontAwesomeIcon icon={faTrash} /> Delete
+                                </button>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {rooms.map((room) => (
-                            <tr key={room.id}>
-                                <td>{room.txtVal}</td>
-                                <td>{room.desc}</td>
-                                <td>{room.pr}</td>
-                                <td>{room.rat}</td>
-                                <td>
-                                    <img src={room.imgUrl} alt={room.txtVal} width="100" />
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

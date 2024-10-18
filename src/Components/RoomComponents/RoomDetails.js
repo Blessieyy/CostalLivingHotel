@@ -9,6 +9,7 @@ import { db } from '../firebase';
 
 
 const RoomDetails = () => {
+    const [selectedRoom, setSelectedRoom] = useState(null);
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
     const [userName, setUserName] = useState('');
@@ -26,6 +27,13 @@ const RoomDetails = () => {
             state: {
                 checkInDate,
                 checkOutDate,
+                room: {
+                    txtVal: selectedRoom.txtVal,
+                    desc: selectedRoom.desc,
+                    pr: selectedRoom.pr,
+                    rat: selectedRoom.rat,
+                    imgUrl: selectedRoom.imgUrl,
+                },
 
             }
         });

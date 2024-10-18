@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { db } from '../../firebase';
+import Dashboard from '../../Dashboard';
+
+
 
 const AdminRoomSelection = () => {
     const [userName, setUserName] = useState('');
@@ -19,10 +22,15 @@ const AdminRoomSelection = () => {
     const navigate = useNavigate();
 
     const getData = async () => {
-        const valRef = collection(getFirestore(), 'rooms');
-        const dataDb = await getDocs(valRef);
-        const allData = dataDb.docs.map(val => ({ ...val.data(), id: val.id }));
-        setData(allData);
+        try {
+            const valRef = collection(getFirestore(), 'rooms');
+            const dataDb = await getDocs(valRef);
+            const allData = dataDb.docs.map(val => ({ ...val.data(), id: val.id }));
+            setData(allData); // This line should update your state with the fetched data
+        } catch (error) {
+            console.error("Error fetching room data:", error);
+            alert("Error fetching room data: " + error.message);
+        }
     };
 
     useEffect(() => {
@@ -30,7 +38,7 @@ const AdminRoomSelection = () => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                const docSnap = await getDoc(doc(db, 'users', user.uid));
+                const docSnap = await getDoc(doc(db, 'user', user.uid));
                 if (docSnap.exists()) {
                     const userData = docSnap.data();
                     setUserName(userData.userName);
@@ -49,15 +57,13 @@ const AdminRoomSelection = () => {
         const confirmDelete = window.confirm("Are you sure you want to delete this room?");
         if (confirmDelete) {
             try {
-                const roomRef = doc(db, 'rooms', roomId); // Use the Firestore instance directly from db
-                console.log("Attempting to delete room with ID:", roomId); // Debugging: log the room ID
-                await deleteDoc(roomRef); // Delete the document
-                console.log("Room deleted successfully");
+                const roomRef = doc(db, 'rooms', roomId);
+                await deleteDoc(roomRef);
                 alert("Room deleted successfully.");
-                getData(); // Refresh the room list
+                getData(); // Refresh the room list after deletion
             } catch (error) {
-                console.error("Error deleting room:", error); // Log the error
-                alert("Error deleting room: " + error.message); // Show error to the user
+                console.error("Error deleting room:", error);
+                alert("Error deleting room: " + error.message);
             }
         }
     };
@@ -84,6 +90,7 @@ const AdminRoomSelection = () => {
 
     return (
         <div className="room-selection">
+
             <header className="header">
                 <button className="back-button" onClick={() => navigate('/')}>
                     <FontAwesomeIcon icon={faBackward} />
@@ -97,6 +104,16 @@ const AdminRoomSelection = () => {
             <div className="room-list">
                 <h3 className='head-greet'>Good to have you here <span>{userName} {surname}</span> :) </h3>
                 <p className='head-greet'>What do you feel like doing today?</p>
+                {/* <Dashboard
+                    data={data}
+                    handleEditClick={handleEditClick}
+                    handleDelete={handleDelete}
+                    editMode={editMode}
+                    editFields={editFields}
+                    setEditFields={setEditFields}
+                    setEditMode={setEditMode}
+                    handleSaveEdit={handleSaveEdit}
+                /> */}
                 {data.map(value => (
                     <div className={`room-card ${selectedRoom && selectedRoom.id === value.id ? 'selected' : ''}`}
                         key={value.id}
@@ -152,9 +169,11 @@ const AdminRoomSelection = () => {
             </div>
 
             <footer className="button-footer">
+
                 <button onClick={() => navigate('/')} className='home-button'>HOME</button>
                 <button onClick={() => navigate('/dashboard')} className="back-button">BACK</button>
                 <button onClick={() => navigate('/addroompage')} className='add-room-button'>ADD ROOM</button>
+                <button onClick={() => navigate('/dashboard')} className='add-room-button'>Dashboard</button>
                 <button
                     onClick={() => navigate('/adminroominfo', { state: { room: selectedRoom } })}
                     className="continue-button"

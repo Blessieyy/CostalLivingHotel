@@ -2,18 +2,28 @@ import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore/lite';
+import { collection, getDocs, getFirestore } from 'firebase/firestore';
+import { db } from '../firebase';
 
 const Review = () => {
+    const [userName, setUserName] = useState('');
+    const [surname, setSurname] = useState('');
     // Use the useLocation hook to get location information
-    const location = useLocation();
+
     // Destructure the roomType and roomNumber from the location state
 
-    const { rooms } = location.state || { rooms: 'Not selected' }
-    const { room } = location.state || { room: 'Not selected' }
 
-    const { roomType, roomNumber, checkInDate, checkOutDate } = location.state || { roomType: 'Not selected', roomNumber: 'Not selected', checkInDate: 'no date allocated', checkOutDate: 'no date allocated' };
+
+
+
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const { checkInDate, checkOutDate, room } = location.state || {};
 
     const handleClick = () => {
         navigate('/roomdetails')
@@ -28,10 +38,26 @@ const Review = () => {
     const handleHomeClick = () => {
         navigate('/')
     }
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const docSnap = await getDoc(doc(db, 'users', user.uid));
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    setUserName(userData.userName);
+                    setSurname(userData.surname);
+                }
+            }
+        });
+        return () => unsubscribe();
+    }, []);
+
     return (
         <div className="review-container">
             <header className="review-header">
-                <button onClick={handleClick} className="back-button">
+                <button onClick={() => navigate('/roomdetails')} className="back-button">
                     <FontAwesomeIcon icon={faBackward} />Back
                 </button>
                 <h2>REVIEW</h2>
@@ -46,32 +72,25 @@ const Review = () => {
                     />
                     <div className="details-text">
                         <h2>Review:</h2>
-                        <h2>{room}</h2>
-                        <h4>{roomType}</h4> {/* Use roomType here */}
-                        <p>{rooms}</p>
+                        <h2>{room ? room.txtVal : 'Room not found'}</h2>
+                        <h4>{room ? room.desc : 'Description not available'}</h4> {/* Use roomType here */}
+                        <p>{room ? room.rat : 'Rating not available'}</p>
                     </div>
                 </div>
 
                 <div className="booking-info">
                     <div className="booking-details">
-                        {/* <div className="booking-item">
-                            <input type="text" value={`${roomType}`} readOnly />
+                        <div className="booking-item">
+                            <input type="text" value={checkInDate || 'No check-in date allocated'} readOnly />
                         </div>
                         <div className="booking-item">
-                            <input type="text" value={`${roomNumber}`} readOnly />
-                        </div> */}
-                        <div className="booking-item">
-                            <input type="text" value={`${checkInDate} `} readOnly />
-                            {/* <img src="calendar-icon.png" alt="" className="calendar-icon" /> */}
-                        </div>
-                        <div className="booking-item">
-                            <input type="text" value={`${checkOutDate} `} readOnly /> {/* Use roomNumber here */}
+                            <input type="text" value={checkOutDate || 'No check-out date allocated'} readOnly />
                         </div>
                     </div>
 
                     <div className="booking-price">
                         <p>Booking Price:</p>
-                        <h2>[PRICE]</h2>
+                        <h2>{room ? room.pr : 'N/A'}</h2>
                     </div>
 
                     <div className="action-buttons">
