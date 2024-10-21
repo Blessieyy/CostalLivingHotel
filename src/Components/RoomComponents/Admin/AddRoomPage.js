@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { v4 } from 'uuid';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import { addDoc, collection, getFirestore } from 'firebase/firestore/lite';
 import { imgDb } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -65,7 +65,7 @@ const AddRoomPage = () => {
             <input onChange={(e) => setRat(e.target.value)} placeholder="Rating" />
             <input onChange={(e) => setPr(e.target.value)} placeholder="Price" />
             <input type='file' onChange={(e) => handleUpload(e)} />
-            <button onClick={handleClick}>Add Room</button>
+            <button onClick={handleClick} >Add Room</button>
         </div>
     );
 };

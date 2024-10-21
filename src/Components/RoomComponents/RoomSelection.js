@@ -1,4 +1,3 @@
-// AdminRoomSelection.js
 import { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
@@ -8,20 +7,23 @@ import { faBackward } from '@fortawesome/free-solid-svg-icons';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { db } from '../firebase';
 
-
 const RoomSelection = () => {
     const [userName, setUserName] = useState('');
     const [surname, setSurname] = useState('');
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [data, setData] = useState([]);
+    const [searchQuery, setSearchQuery] = useState(''); // New state for search input
+    const [filteredRooms, setFilteredRooms] = useState([]); // New state for filtered rooms
 
     const navigate = useNavigate();
 
+    // Fetch room data from Firestore
     const getData = async () => {
         const valRef = collection(getFirestore(), 'rooms');
         const dataDb = await getDocs(valRef);
         const allData = dataDb.docs.map(val => ({ ...val.data(), id: val.id }));
         setData(allData);
+        setFilteredRooms(allData); // Initialize filtered rooms to all data
     };
 
     useEffect(() => {
@@ -40,14 +42,31 @@ const RoomSelection = () => {
         return () => unsubscribe();
     }, []);
 
+    // Handle room click
     const handleRoomClick = (room) => {
         setSelectedRoom(room);
     };
+
+    // Handle continue button click
     const handleContinueClick = () => {
         if (selectedRoom) {
-            navigate('/roomdetails', { state: { selectedRoom } }); // Pass selected room details to RoomDetails
+            navigate('/roominfo', { state: { room: selectedRoom } }); // Pass selected room details to RoomDetails
         }
     };
+
+    // Handle search query change
+    const handleSearchChange = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        // Filter rooms based on search query
+        const filtered = data.filter(room =>
+            room.txtVal.toLowerCase().includes(query) ||
+            room.desc.toLowerCase().includes(query)
+        );
+        setFilteredRooms(filtered);
+    };
+
     return (
         <div className="room-selection">
             <header className="header">
@@ -60,11 +79,23 @@ const RoomSelection = () => {
                 </div>
             </header>
 
+            {/* Search bar for filtering rooms */}
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search rooms..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
+            </div>
+
             <div className="room-list">
-                {data.map(value => (
-                    <div className={`room-card ${selectedRoom && selectedRoom.id === value.id ? 'selected' : ''}`}
+                {filteredRooms.map(value => (
+                    <div
+                        className={`room-card ${selectedRoom && selectedRoom.id === value.id ? 'selected' : ''}`}
                         key={value.id}
-                        onClick={() => handleRoomClick(value)}>
+                        onClick={() => handleRoomClick(value)}
+                    >
                         <img className="room-image" src={value.imgUrl} alt={value.txtVal} />
                         <div className="room-details">
                             <h2 className="room-title">{value.txtVal}</h2>
@@ -74,6 +105,7 @@ const RoomSelection = () => {
                         </div>
                     </div>
                 ))}
+
             </div>
 
             <footer className="button-footer">
@@ -81,9 +113,9 @@ const RoomSelection = () => {
                 <button onClick={() => navigate('/addrooms')} className="back-button">BACK</button>
 
                 <button
-                    onClick={handleContinueClick} // Pass selected room details
+                    onClick={handleContinueClick}
                     className="continue-button"
-                    disabled={!selectedRoom} // Disable until a room is selected
+                    disabled={!selectedRoom}
                 >
                     CONTINUE
                 </button>

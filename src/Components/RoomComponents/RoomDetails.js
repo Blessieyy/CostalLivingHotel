@@ -1,42 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBackward, faUser, faUserAlt } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBackward, faUserAlt } from '@fortawesome/free-solid-svg-icons';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
 import { db } from '../firebase';
 
-
-
 const RoomDetails = () => {
-    const [selectedRoom, setSelectedRoom] = useState(null);
-    const [checkInDate, setCheckInDate] = useState('');
-    const [checkOutDate, setCheckOutDate] = useState('');
     const [userName, setUserName] = useState('');
     const [surname, setSurname] = useState('');
-    const images = [
-        {
-            pic: "/images/toni-rose-ng-Aq3MVtlHC1s-unsplash.jpg"
-        }
-    ]
+    const [checkInDate, setCheckInDate] = useState('');
+    const [checkOutDate, setCheckOutDate] = useState('');
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const { room } = location.state || {}; // Ensure room is accessed safely
 
     const handleNextClick = () => {
-        // Navigate to the Review page and pass the selected values as state
-        navigate('/review', {
-            state: {
-                checkInDate,
-                checkOutDate,
-                room: {
-                    txtVal: selectedRoom.txtVal,
-                    desc: selectedRoom.desc,
-                    pr: selectedRoom.pr,
-                    rat: selectedRoom.rat,
-                    imgUrl: selectedRoom.imgUrl,
+        if (room) {
+            navigate('/review', {
+                state: {
+                    checkInDate,
+                    checkOutDate,
+                    room,
                 },
-
-            }
-        });
+            });
+        }
     };
 
     useEffect(() => {
@@ -54,31 +43,29 @@ const RoomDetails = () => {
         return () => unsubscribe();
     }, []);
 
+    if (!room) {
+        return <p>Room details not available.</p>; // Handle case where room is not passed or undefined
+    }
 
     return (
         <div className="room-details">
             <header className="header">
                 <button className="back-button">
-                    <i className="fas fa-arrow-left"><FontAwesomeIcon icon={faBackward} className='icon' /></i> {/* Font Awesome back arrow */}
+                    <FontAwesomeIcon icon={faBackward} className="icon" onClick={() => navigate(-1)} />
                 </button>
-                <h1 className='room-header'>Room Check in</h1>
+                <h1 className="room-header">Room Check In</h1>
                 <div className="username-section">
-                    <i className="fas fa-user-circle"><FontAwesomeIcon icon={faUserAlt} /></i> {/* Font Awesome user icon */}
+                    <FontAwesomeIcon icon={faUserAlt} />
                     <span>{userName} {surname}</span>
                 </div>
             </header>
-            {images.map((image, index) => (
-                <div className="room-image-container" key={index}>
-                    <img src={image.pic} alt='' className="room-image" />
-                </div>
-            ))}
-
-
-            <div className="action-buttons">
-                {/* <button className="action-button">Map</button>
-                <button className="action-button">Photos</button>
-                <button className="action-button">Call</button>
-                <button className="action-button">Reviews</button> */}
+            {/* Ensure room.imgUrl is available before rendering */}
+            <div className="room-image-container">
+                {room.imgUrl ? (
+                    <img className='room-image' src={room.imgUrl} alt={room.txtVal} />
+                ) : (
+                    <p>Image not available</p>
+                )}
             </div>
 
             <div className="date-picker">
@@ -103,7 +90,9 @@ const RoomDetails = () => {
             </div>
 
             <footer className="footer-button">
-                <button onClick={handleNextClick} className="continue-button">Continue</button>
+                <button onClick={handleNextClick} className="continue-button">
+                    Continue
+                </button>
             </footer>
         </div>
     );

@@ -8,6 +8,22 @@
     padding: 20px;
     font-family: "Quicksand", sans-serif;
 
+    .search-bar {
+        margin-bottom: 20px;
+        width: 100%;
+        max-width: 800px;
+        margin-top: 0.76em;
+    }
+
+    .search-bar input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #000000;
+        font-size: 16px;
+        background-color: #ffffff;
+    }
+
     .header {
         display: flex;
         justify-content: space-between;

@@ -65,11 +65,7 @@ const Review = () => {
 
             <div className="review-content">
                 <div className="room-details">
-                    <img
-                        src="/images/chastity-cortijo-M8iGdeTSOkg-unsplash.jpg"
-                        alt="Room"
-                        className="room-image"
-                    />
+                    <img className='room-image' src={room.imgUrl} alt={room.txtVal} />
                     <div className="details-text">
                         <h2>Review:</h2>
                         <h2>{room ? room.txtVal : 'Room not found'}</h2>

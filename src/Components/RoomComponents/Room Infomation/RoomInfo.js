@@ -21,6 +21,16 @@ const RoomInfo = () => {
     const location = useLocation();
     const { room } = location.state; // Access the selected room
 
+    const handleNextClick = () => {
+        if (room) {
+            navigate('/roomdetails', {
+                state: {
+                    room,
+                },
+            });
+        }
+    };
+
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -64,7 +74,7 @@ const RoomInfo = () => {
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam suscipit massa sed sem maximus vehicula. Sed tristique nisi justo, et feugiat purus luctus ac. Duis congue risus in lacus ultricies, sed aliquet massa semper. Quisque egestas elit erat, sed porta magna laoreet vel. Morbi pulvinar ullamcorper elit, quis posuere justo sollicitudin sit amet. Maecenas pretium egestas ultricies. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris tincidunt ornare ante et volutpat.</p>
 
             <button onClick={() => navigate('/roomselection')} className='home-button'>BACK</button>
-            <button onClick={() => navigate('/roomdetails')} className="back-button">BOOK</button>
+            <button onClick={handleNextClick} className="back-button">BOOK</button>
 
         </div>
     );

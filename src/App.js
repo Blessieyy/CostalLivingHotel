@@ -79,13 +79,15 @@ function App() {
                     <Route path="/pay" element={<StripeWrapper />} />
                     <Route path="/success" element={<SuccessPage />} />
                     <Route path="/review" element={<Review />} />
-                    <Route path="/dashboard" element={<ProtectedRoute admin={admin}>
+                    {/* <Route path="/dashboard" element={<ProtectedRoute admin={admin}>
                         <Dashboard></Dashboard>
-                    </ProtectedRoute>} />
+                    </ProtectedRoute>} /> */}
+                    <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/adminroomselection" element={<AdminRoomSelection />} />
                     <Route path="/addroompage" element={<AddRoomPage />} />
                     <Route path="/adminroominfo" element={<AdminRoomInfo />} />
                     <Route path="/confirm" element={<BookingConfirmation />} />
+
 
                 </Routes>
 

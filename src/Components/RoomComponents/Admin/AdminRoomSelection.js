@@ -1,15 +1,11 @@
-// AdminRoomSelection.js
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore/lite';
+import { doc, getDoc, deleteDoc, updateDoc, collection, getDocs, getFirestore } from 'firebase/firestore/lite';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBackward, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { db } from '../../firebase';
 import Dashboard from '../../Dashboard';
-
-
 
 const AdminRoomSelection = () => {
     const [userName, setUserName] = useState('');
@@ -17,8 +13,9 @@ const AdminRoomSelection = () => {
     const [selectedRoom, setSelectedRoom] = useState(null);
     const [data, setData] = useState([]);
     const [editMode, setEditMode] = useState(null); // Track the room being edited
-    const [editFields, setEditFields] = useState({ txt: '', desc: '', pr: '', rat: '' }); // Editable fields
-
+    const [editFields, setEditFields] = useState({ txt: '', desc: '', pr: '', rat: '' });
+    const [searchQuery, setSearchQuery] = useState(''); // New state for search input
+    const [filteredRooms, setFilteredRooms] = useState([]); // New state for filtered rooms
     const navigate = useNavigate();
 
     const getData = async () => {
@@ -26,7 +23,7 @@ const AdminRoomSelection = () => {
             const valRef = collection(getFirestore(), 'rooms');
             const dataDb = await getDocs(valRef);
             const allData = dataDb.docs.map(val => ({ ...val.data(), id: val.id }));
-            setData(allData); // This line should update your state with the fetched data
+            setData(allData); // Update the state with fetched data
         } catch (error) {
             console.error("Error fetching room data:", error);
             alert("Error fetching room data: " + error.message);
@@ -53,27 +50,25 @@ const AdminRoomSelection = () => {
         setSelectedRoom(room);
     };
 
-    const handleDelete = async (roomId) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this room?");
-        if (confirmDelete) {
-            try {
-                const roomRef = doc(db, 'rooms', roomId);
-                await deleteDoc(roomRef);
-                alert("Room deleted successfully.");
-                getData(); // Refresh the room list after deletion
-            } catch (error) {
-                console.error("Error deleting room:", error);
-                alert("Error deleting room: " + error.message);
-            }
-        }
-    };
+    // const handleDelete = async (roomId) => {
+    //     const confirmDelete = window.confirm("Are you sure you want to delete this room?");
+    //     if (confirmDelete) {
+    //         try {
+    //             const roomRef = doc(db, 'rooms', roomId);
+    //             await deleteDoc(roomRef);
+    //             alert("Room deleted successfully.");
+    //             getData(); // Refresh the room list after deletion
+    //         } catch (error) {
+    //             console.error("Error deleting room:", error);
+    //             alert("Error deleting room: " + error.message);
+    //         }
+    //     }
+    // };
 
-
-
-    const handleEditClick = (room) => {
-        setEditMode(room.id);
-        setEditFields({ txt: room.txtVal, desc: room.desc, pr: room.pr, rat: room.rat });
-    };
+    // const handleEditClick = (room) => {
+    //     setEditMode(room.id);
+    //     setEditFields({ txt: room.txtVal, desc: room.desc, pr: room.pr, rat: room.rat });
+    // };
 
     const handleSaveEdit = async (roomId) => {
         const roomRef = doc(getFirestore(), 'rooms', roomId);
@@ -88,11 +83,23 @@ const AdminRoomSelection = () => {
         getData(); // Refresh the room list
     };
 
+    // Handle search query change
+    const handleSearchChange = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        // Filter rooms based on search query
+        const filtered = data.filter(room =>
+            room.txtVal.toLowerCase().includes(query) ||
+            room.desc.toLowerCase().includes(query)
+        );
+        setFilteredRooms(filtered);
+    };
+
     return (
         <div className="room-selection">
-
             <header className="header">
-                <button className="back-button" onClick={() => navigate('/')}>
+                <button className="back-button" onClick={() => navigate('/admin')}>
                     <FontAwesomeIcon icon={faBackward} />
                 </button>
                 <h1 className="room-header">Room Selection</h1>
@@ -100,20 +107,26 @@ const AdminRoomSelection = () => {
                     <span className="username">{userName} {surname}</span>
                 </div>
             </header>
+            <div className="search-bar">
+                <input
+                    type="text"
+                    placeholder="Search rooms..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
+            </div>
 
             <div className="room-list">
                 <h3 className='head-greet'>Good to have you here <span>{userName} {surname}</span> :) </h3>
                 <p className='head-greet'>What do you feel like doing today?</p>
+
+                {/* Pass data to the Dashboard component */}
                 {/* <Dashboard
                     data={data}
                     handleEditClick={handleEditClick}
                     handleDelete={handleDelete}
-                    editMode={editMode}
-                    editFields={editFields}
-                    setEditFields={setEditFields}
-                    setEditMode={setEditMode}
-                    handleSaveEdit={handleSaveEdit}
                 /> */}
+
                 {data.map(value => (
                     <div className={`room-card ${selectedRoom && selectedRoom.id === value.id ? 'selected' : ''}`}
                         key={value.id}
@@ -154,14 +167,14 @@ const AdminRoomSelection = () => {
                                 <p className="room-description">{value.desc}</p>
                                 <p className="room-price">Price: {value.pr}</p>
                                 <p className="room-rating">Rating: {value.rat} ★</p>
-                                <div className="room-actions">
+                                {/* <div className="room-actions">
                                     <button onClick={() => handleEditClick(value)}>
                                         <FontAwesomeIcon icon={faEdit} /> Edit
                                     </button>
                                     <button onClick={() => handleDelete(value.id)}>
                                         <FontAwesomeIcon icon={faTrash} /> Delete
                                     </button>
-                                </div>
+                                </div> */}
                             </div>
                         )}
                     </div>
@@ -169,8 +182,7 @@ const AdminRoomSelection = () => {
             </div>
 
             <footer className="button-footer">
-
-                <button onClick={() => navigate('/')} className='home-button'>HOME</button>
+                <button onClick={() => navigate('/admin')} className='home-button'>HOME</button>
                 <button onClick={() => navigate('/dashboard')} className="back-button">BACK</button>
                 <button onClick={() => navigate('/addroompage')} className='add-room-button'>ADD ROOM</button>
                 <button onClick={() => navigate('/dashboard')} className='add-room-button'>Dashboard</button>
