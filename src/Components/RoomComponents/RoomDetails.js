@@ -5,12 +5,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
 import { db } from '../firebase';
+import moment from 'moment/moment';
 
 const RoomDetails = () => {
     const [userName, setUserName] = useState('');
     const [surname, setSurname] = useState('');
     const [checkInDate, setCheckInDate] = useState('');
     const [checkOutDate, setCheckOutDate] = useState('');
+    const [totalDays, setTotalDays] = useState(0);
+
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -22,11 +25,20 @@ const RoomDetails = () => {
                 state: {
                     checkInDate,
                     checkOutDate,
+                    totalDays,
                     room,
                 },
             });
         }
     };
+    useEffect(() => {
+        if (checkInDate && checkOutDate) {
+            const start = moment(checkInDate)
+            const end = moment(checkOutDate)
+            const days = end.diff(start, "days");
+            setTotalDays(days);
+        }
+    }, [checkInDate, checkOutDate]);
 
     useEffect(() => {
         const auth = getAuth();
@@ -85,6 +97,7 @@ const RoomDetails = () => {
                         id="check-out"
                         value={checkOutDate}
                         onChange={(e) => setCheckOutDate(e.target.value)}
+                        min={checkInDate}
                     />
                 </div>
             </div>

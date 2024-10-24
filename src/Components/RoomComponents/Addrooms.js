@@ -60,7 +60,7 @@ const Addrooms = () => {
         <div className="hotel-search-container">
             <Navbar />
             <header className="header">
-                <img className='info-image' />
+                {/* <img className='info-image' /> */}
                 {userName && surname ? (
                     <h1>Oh Hi!, {userName} {surname} welcome back!</h1>
                 ) : (

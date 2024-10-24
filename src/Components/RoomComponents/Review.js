@@ -6,38 +6,23 @@ import { useState, useEffect } from 'react';
 
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const Review = () => {
     const [userName, setUserName] = useState('');
     const [surname, setSurname] = useState('');
-    // Use the useLocation hook to get location information
-
-    // Destructure the roomType and roomNumber from the location state
-
-
-
-
-
 
     const navigate = useNavigate();
     const location = useLocation();
-    const { checkInDate, checkOutDate, room } = location.state || {};
-
-    const handleClick = () => {
-        navigate('/roomdetails')
-    }
+    const { checkInDate, checkOutDate, totalDays, room } = location.state || {};
 
     const handleNextClick = () => {
-        // Navigate to the Review page and pass the selected values as state
-        navigate('/pay')
-
+        navigate('/pay');
     };
 
     const handleHomeClick = () => {
-        navigate('/')
-    }
+        navigate('/');
+    };
 
     useEffect(() => {
         const auth = getAuth();
@@ -69,7 +54,7 @@ const Review = () => {
                     <div className="details-text">
                         <h2>Review:</h2>
                         <h2>{room ? room.txtVal : 'Room not found'}</h2>
-                        <h4>{room ? room.desc : 'Description not available'}</h4> {/* Use roomType here */}
+                        <h4>{room ? room.desc : 'Description not available'}</h4>
                         <p>{room ? room.rat : 'Rating not available'}</p>
                     </div>
                 </div>
@@ -81,10 +66,16 @@ const Review = () => {
                         </div>
                         <div className="booking-item">
                             <input type="text" value={checkOutDate || 'No check-out date allocated'} readOnly />
+
+                        </div>
+                        <div className="booking-item">
+
                         </div>
                     </div>
 
                     <div className="booking-price">
+                        <p>Total Days: {totalDays || 0}</p> {/* Display total days */}
+
                         <p>Booking Price:</p>
                         <h2>{room ? room.pr : 'N/A'}</h2>
                     </div>
