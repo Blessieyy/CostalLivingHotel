@@ -11,7 +11,7 @@ function BookingSection() {
         e.preventDefault();
 
 
-        navigate('/login')
+        navigate('/roomselection')
 
     }
 

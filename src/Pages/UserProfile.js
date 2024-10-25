@@ -15,6 +15,7 @@ const UserProfile = () => {
     const [newProfileImage, setNewProfileImage] = useState(null);
     const [newCoverImage, setNewCoverImage] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [bio, setBio] = useState('')
 
     const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const UserProfile = () => {
                     setEmailAddress(userData.emailAddress);
                     setProfileImage(userData.profileImage || "public/profile-image.png");
                     setCoverImage(userData.coverImage || "public/cover-image.jpg");
+                    setBio(userData.bio)
                 }
             }
         });
@@ -86,8 +88,11 @@ const UserProfile = () => {
 
     return (
         <div className="profile-card">
+            <div></div>
             <div className="profile-cover" style={{ backgroundImage: `url('${coverImage}')` }}>
-                <h1>{userName} {surname}</h1>
+                <div className="profile-name">
+                    <h1>{userName} {surname}</h1>
+                </div>
             </div>
             <div className="profile-image">
                 <img src={profileImage} alt="Profile" />

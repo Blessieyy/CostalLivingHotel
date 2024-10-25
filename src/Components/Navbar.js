@@ -1,26 +1,35 @@
 import { useState, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { setDoc, doc, getDoc } from 'firebase/firestore/lite';
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { db } from '../Components/firebase'; // Make sure to correctly initialize firebase in this file
+import { Link, useNavigate } from "react-router-dom";
+import { db } from '../Components/firebase';
 
 const Navbar = () => {
-    const [userName, setUserName] = useState(''); // State to hold the user's name
-    const [surname, setSurname] = useState('')
+    const [user, setUser] = useState(null); // State to hold the user's info
+    const [userName, setUserName] = useState('');
+    const [surname, setSurname] = useState('');
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
+                setUser(user); // Set the user object if logged in
                 const uid = user.uid;
-                // Fetching user data from Firestore
+
+                // Fetch user data from Firestore
                 const docRef = doc(db, 'users', uid);
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     const userData = docSnap.data();
-                    setUserName(userData.userName); // Set the user's first name
-                    setSurname(userData.surname)
+                    setUserName(userData.userName);
+                    setSurname(userData.surname);
                 }
+            } else {
+                setUser(null); // Reset user state if not logged in
+                setUserName('');
+                setSurname('');
             }
         });
 
@@ -28,19 +37,19 @@ const Navbar = () => {
         return () => unsubscribe();
     }, []);
 
-    const navigate = useNavigate();
-
-    const handleClick = async () => {
+    const handleAuthAction = () => {
         const auth = getAuth();
-        signOut(auth).then(() => {
-
+        if (user) {
+            // Sign out if user is signed in
+            signOut(auth).then(() => {
+                navigate("/login");
+            }).catch((error) => {
+                console.error(error);
+            });
+        } else {
+            // Navigate to login if no user is signed in
             navigate("/login");
-
-        }).catch((error) => {
-
-
-            console.error(error);
-        });
+        }
     };
 
     return (
@@ -48,11 +57,10 @@ const Navbar = () => {
             <a href="/" className="logo">CoastalLivingHotels.com</a>
 
             <div className='nav-links'>
-                <a href="/login">Login</a>
-                {/* <a href="/register">SignUp</a> */}
+                {!user && <a href="/login">Login</a>}
                 <a href="/">Home</a>
-                <button onClick={handleClick} >Sign Out</button>
-                <a href="/profile">User: {userName} {surname} </a>
+                <button onClick={handleAuthAction}>{user ? "Sign Out" : "Sign In"}</button>
+                {user && <a href="/profile">User: {userName} {surname}</a>}
             </div>
         </div>
     );
