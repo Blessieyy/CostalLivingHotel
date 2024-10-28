@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { setDoc, doc } from 'firebase/firestore/lite';
 import { auth, db } from '../Components/firebase';
+import emailjs from 'emailjs-com';
 
 const Register = () => {
   const images = '/images/rhema-kallianpur-jbJ-_hw2yag-unsplash.jpg';
@@ -16,10 +17,12 @@ const Register = () => {
     e.preventDefault();
 
     try {
+      // Register user with Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const uid = user.uid;
 
+      // Save user data to Firestore
       const userData = {
         userName: firstName,
         surname: lastName,
@@ -29,6 +32,19 @@ const Register = () => {
 
       const userDocRef = doc(db, 'users', uid);
       await setDoc(userDocRef, userData);
+
+      // Send welcome email using EmailJS
+      await emailjs.send(
+        'service_69p0pcf',
+        'template_ullhi7b',
+        {
+          firstName: firstName,     // Use the dynamic variables from your form
+          lastName: lastName,
+          email: email,
+        },
+        'sK0yu12dTiL2f5eYk'
+      );
+
       alert('Registered Successfully! Welcome to the family.');
       navigate('/login');
     } catch (error) {
