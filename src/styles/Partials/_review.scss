@@ -1,7 +1,7 @@
 //review
 .review-container {
     background-color: #f8e4d9;
-    padding: 20px;
+    // padding: 20px;
     width: 100%;
     height: 100%;
     margin: 0 auto;
@@ -10,11 +10,11 @@
     .review-header {
         display: flex;
         justify-content: space-between;
-        background-color: #6b6b6b;
-        padding: 5px;
-        border-radius: 0px;
+        align-items: center;
+        background-color: #707070;
         color: white;
-        margin-bottom: 20px;
+        padding: 1rem;
+        width: 100%;
 
         h2 {
             margin: 0;
@@ -72,6 +72,7 @@
         .booking-info {
             display: flex;
             flex-direction: column;
+
 
             .booking-details {
                 display: flex;

@@ -3,7 +3,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward } from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import { collection, getDocs, getFirestore } from 'firebase/firestore';
 import { db } from '../firebase';
 
@@ -75,7 +75,8 @@ const RoomSelection = () => {
                 </button>
                 <h1 className="room-header">Room Selection</h1>
                 <div className="username-section">
-                    <span className="username">{userName} {surname}</span>
+                    <i className="fas fa-user-circle" ><FontAwesomeIcon icon={faUserAlt} /></i> {/* Font Awesome user icon */}
+                    <span className="username" onClick={() => navigate('/profile')}>{userName} {surname}</span>
                 </div>
             </header>
 

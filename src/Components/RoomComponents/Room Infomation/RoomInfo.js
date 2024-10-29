@@ -41,10 +41,12 @@ const RoomInfo = () => {
                     setUserName(userData.userName);
                     setSurname(userData.surname);
                 }
+            } else {
+                navigate('/login')
             }
         });
         return () => unsubscribe();
-    }, []);
+    }, [navigate]);
 
 
     return (
@@ -52,7 +54,7 @@ const RoomInfo = () => {
         <div className="info-container">
             <header className="header-info">
                 <button className="back-button">
-                    <i className="fas fa-arrow-left"><FontAwesomeIcon icon={faBackward} className='icon' /></i> {/* Font Awesome back arrow */}
+                    <i className="fas fa-arrow-left" onClick={() => navigate('/roomselection')}><FontAwesomeIcon icon={faBackward} className='icon' /></i> {/* Font Awesome back arrow */}
                 </button>
                 <h1 className='room-header'>Room Information</h1>
                 <div className="username-section">

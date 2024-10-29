@@ -1,12 +1,20 @@
-// RoomSelection.scss
-
-
-
-
 .room-selection {
+    animation: fadeIn 0.8s ease-in-out; // Apply fade-in animation to the container
 
-    padding: 20px;
-    font-family: "Quicksand", sans-serif;
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px); // Slight slide-up effect
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    font-family: "Quicksand",
+    sans-serif;
 
     .search-bar {
         margin-bottom: 20px;
@@ -28,9 +36,10 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px 20px;
         background-color: #707070;
         color: white;
+        padding: 1rem;
+        width: 100%;
 
         .back-button {
             background: none;
@@ -51,13 +60,13 @@
             .username {
                 color: #fff;
                 font-size: 1rem;
+                cursor: pointer;
             }
         }
     }
 
     .room-list {
         margin: 20px 0;
-
 
         .room-card {
             position: relative;
@@ -67,6 +76,7 @@
             padding: 35px;
             border-radius: 12px;
             margin-bottom: 20px;
+            margin-left: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             cursor: pointer;
 
@@ -75,16 +85,12 @@
                 transition: background-color 0.3s ease-in-out;
             }
 
-
-
-
             .room-image {
                 position: absolute;
                 width: 200px;
                 height: 154px;
                 object-fit: cover;
                 border-radius: 8px;
-
             }
 
             .room-details {
@@ -95,7 +101,6 @@
                 flex-direction: column;
                 justify-content: space-between;
                 background-color: #ebd2c1;
-
 
                 .room-title {
                     font-size: 1.3rem;
@@ -114,21 +119,10 @@
             }
         }
 
-
-        .head-greet {
-            text-align: center;
-
-
+        .room-card.selected {
+            border: 2px solid #961a1a;
+            transition: background-color 0.3s ease-in-out;
         }
-
-        .span {
-            color: #961a1a;
-        }
-    }
-
-    .room-card.selected {
-        border: 2px solid #961a1a; // Highlight the selected room with a border
-        transition: background-color 1.3s ease-in-out;
     }
 
     button {
@@ -152,35 +146,34 @@
         flex-grow: 1;
         margin: 0 0.5rem;
     }
-}
 
-.button-footer {
-    background-color: #333; // Dark background for the buttons
-    color: #fff; // White text
-    border: none;
-    padding: 10px 20px;
-    border-radius: 30px; // Rounded corners to match the button style
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-
-    .home-button,
-    .back-button,
-    .continue-button {
-        background-color: black;
-        color: white;
-        padding: 10px 20px;
+    .button-footer {
+        background-color: #333;
+        color: #fff;
         border: none;
-        border-radius: 5px;
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-size: 16px;
         cursor: pointer;
-        font-size: 1rem;
-        align-items: center;
-        text-align: center;
-    }
+        transition: background-color 0.3s ease;
 
-    .continue-button[disabled] {
-        opacity: 0.5;
-        cursor: not-allowed;
+        .home-button,
+        .back-button,
+        .continue-button {
+            background-color: black;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            align-items: center;
+            text-align: center;
+        }
+
+        .continue-button[disabled] {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
     }
 }

@@ -1,9 +1,8 @@
-import { faBackward } from '@fortawesome/free-solid-svg-icons';
+import { faBackward, faUserAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
 import { db } from '../firebase';
@@ -43,9 +42,13 @@ const Review = () => {
         <div className="review-container">
             <header className="review-header">
                 <button onClick={() => navigate('/roomdetails')} className="back-button">
-                    <FontAwesomeIcon icon={faBackward} />Back
+                    <FontAwesomeIcon icon={faBackward} />
                 </button>
-                <h2>REVIEW</h2>
+                <h1>REVIEW</h1>
+                <div className="username-section">
+                    <i className="fas fa-user-circle" ><FontAwesomeIcon icon={faUserAlt} /></i> {/* Font Awesome user icon */}
+                    <span className="username" onClick={() => navigate('/profile')}>{userName} {surname}</span>
+                </div>
             </header>
 
             <div className="review-content">

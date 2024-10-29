@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBackward, faUserAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore/lite';
 import { db } from './firebase';
-
 
 
 const SuccessPage = () => {
@@ -16,8 +15,6 @@ const SuccessPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { room } = location.state || {}; // Ensure room is accessed safely
-
-
 
     const handleNextClick = () => {
         if (room) {
@@ -47,9 +44,10 @@ const SuccessPage = () => {
     }, []);
 
     return (
-        <div>
+        <div className="success-page">
+            <FontAwesomeIcon icon={faCheckCircle} className="icon" />
             <h1>Payment Successful!</h1>
-            <p>Thank you for your payment. Your transaction has been completed successfully.</p>
+            <p>Thank you for your payment, {userName} {surname}. Your transaction has been completed successfully.</p>
             <button onClick={handleNextClick}>SEE DETAILS</button>
         </div>
     );
